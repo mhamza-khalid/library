@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1 class="headerMain">Library</h1>
+    <form id="form1" method="post">
+
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" required>
+
+        <label for="pages">Number of Pages:</label>
+        <input type="text" id="pages" name="pages" required></input>
+
+        <label  for="choice">Have You read this book?:</label>
+        <select id="choice" name="choice" required>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+
+
+        <input class="addBook" type="submit" value="Submit">
+    </form>
+    
+    <div id="cards">
+        
+    </div>
+    <script src="library.js"></script>
+</body>
+
+</html>
