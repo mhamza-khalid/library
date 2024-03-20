@@ -9,32 +9,41 @@
 </head>
 
 <body>
-    <h1 class="headerMain">Library</h1>
-    <form id="form1" method="post">
+    <header>Library</header>
 
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required>
+   <button class="button open-button">Add New Book</button>
+
+   <dialog class="modal" id="modal">
+
+     <form class="form" method="dialog">
+        
+        <label for="title" >Title:</label>
+        <input required type="text" id="title">
 
         <label for="author">Author:</label>
-        <input type="text" id="author" name="author" required>
+        <input required type="text" id="author">
 
-        <label for="pages">Number of Pages:</label>
-        <input type="text" id="pages" name="pages" required></input>
+        <label for="pages">No. of Pages:</label>
+        <input required type="number" id="pages">
 
-        <label  for="choice">Have You read this book?:</label>
-        <select id="choice" name="choice" required>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-        </select>
+        <label for="read">Have you read this book (yes or no)?</label>
+            <select id="read">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+            </select>
 
+        <button type="submit" value="Submit" class="button close-button">Submit!</button>
 
-        <input class="addBook" type="submit" value="Submit">
-    </form>
-    
+     </form>
+     
+   </dialog>
+     
     <div id="cards">
-        
+
     </div>
-    <script src="library.js"></script>
+
+
+    <script src="script.js" defer></script>
 </body>
 
 </html>
