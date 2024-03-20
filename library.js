@@ -4,7 +4,15 @@ let form = document.querySelector('.form');
 let cardsParent = document.querySelector('#cards') ;
 
 
-let myLibrary = [];   //this array will contain book objects
+let myLibrary = [{title: 'Tintin',
+                  author: 'Herge', 
+                  pages: '63', 
+                  read: 'Yes'},
+
+                 {title: 'Meditations', 
+                 author: 'Marcus Aurelius', 
+                 pages: '308', 
+                 read: 'No'}];   //this array will contain book objects (two intial books)
 
 let editFlag = false;
 let editIndex;
@@ -13,6 +21,8 @@ let titleEdit = document.querySelector('#title');
 let authorEdit = document.querySelector('#author');
 let pagesEdit = document.querySelector('#pages');
 let readEdit = document.querySelector('#read');
+
+displayBooks(); // to load initial 2 book objects in myLibrary array on first page load
 
 newBookInput.addEventListener('click', ()=>{
         modal.showModal();
