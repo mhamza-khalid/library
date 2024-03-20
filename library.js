@@ -1,75 +1,104 @@
-let myLibrary = [];
+let newBookInput = document.querySelector('.open-button'); // when add book button is hit
+let modal = document.querySelector('.modal');
+let form = document.querySelector('.form'); 
+let cardsParent = document.querySelector('#cards') ;
 
-var j = 0 ;
-const form = document.getElementById('form1');
 
-form.addEventListener('submit', addBookToLibrary);  //fires when form is submitted is
+let myLibrary = [];   //this array will contain book objects
 
-function addBookToLibrary(event) {
-  // do stuff here
-  
-  event.preventDefault();
-  const title = document.getElementById('title').value;
-  const author = document.getElementById('author').value;
-  const pages = document.getElementById('pages').value;
-  const read = document.getElementById('choice').value;
+newBookInput.addEventListener('click', ()=>{
+        modal.showModal();
+})
 
-  const book = new Book(title, author, pages, read);  // creates book through Book constructor
-  myLibrary.push(book);         // adds book to myLibrary array
+form.addEventListener('submit', addBookToLibrary);
+form.addEventListener('submit', displayBooks);
 
-  form.reset();    //clears form inputs
-  
-  
-    var element = document.createElement("div");   //creates a div for a new card
-    element.className = "card";                    //assigns all cards to class = "card"
-    var parent = document.getElementById("cards");   
-    parent.appendChild(element);                  // append card to parent cards
+window.addEventListener('click', (event)=>{ 
 
-    var cardElements = document.querySelectorAll(".card")   //creates a nodeList of all cards
+        console.log(event.target);
 
-    var cardArray = Array.from(cardElements);     //converts nodeList to an array
+        if(event.target.className == 'read'){
+                if(event.target.textContent == "Read Status: Yes"){
+                        event.target.textContent = "Read Status: No";
+                }
+                else if(event.target.textContent == "Read Status: No"){
+                        event.target.textContent = "Read Status: Yes"; 
+                }
+        }
 
-    cardArray[j].innerHTML =                      //seelcts current card and adds content to it
-        "<div>Title: " + myLibrary[j].title + "</div>" +
-        "<div>Author: " + myLibrary[j].author + "</div>" +
-        "<div>No. of pages: " + myLibrary[j].pages + "</div>" +
-        "<button class='readT'>Read Status: " + myLibrary[j].read + "</button>" +
-        "<div><button class='delete'>Delete</button></div>";
-    
-        const deleteB = document.querySelectorAll('.delete'); 
-        const deleteArray = Array.from(deleteB);
-        deleteArray.forEach((deleteButton, index) => {
-          deleteButton.addEventListener('click', () => {
-            deleteButton.parentElement.parentElement.remove();  //remove  div then upper div (card)
-            myLibrary.splice(index,1);    //remove element from object
-            cardArray.splice(index,1);
-            j =  cardArray.length;        //next index update
-          });
-        });
-        const read1 = document.querySelectorAll('.readT');  //toggle read status
-        const read2 = Array.from(read1);
-        read2.forEach((element2, index)=>{
-            element2.addEventListener('click', ()=>{
-              if(myLibrary[index].read === "yes"){
-                myLibrary[index].read = "no";
-              }
-              else{
-                myLibrary[index].read = "yes";
-              }
-              element2.textContent = "Read Status: " + myLibrary[index].read;
-            });
-        });
-        
+        if(event.target.className == 'delete'){
+                let deleteIndex = event.target.id;
+                myLibrary.splice(deleteIndex,1);
+                displayBooks();
+        }
 
-    j =  cardArray.length;                    // moves to next object in array conatining objects
-  
+})
+
+function Book(title, author, pages, read){   // Book object constructor used to make the book object
+      
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+
+}
+function addBookToLibrary(event){
+        event.preventDefault();
+        modal.close();
+
+        let title = document.querySelector('#title').value;
+        let author = document.querySelector('#author').value;
+        let pages = document.querySelector('#pages').value;
+        let read = document.querySelector('#read').value;
+
+        let book = new Book(title,author,pages,read);
+
+        myLibrary.push(book);  // appends book object to myLibrary array
+
+        form.reset();   // clear form for next input
 }
 
-function Book (title, author, pages, read) {
-  // the constructor...
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.read = read;
-}
+function displayBooks(){
 
+        cardsParent.textContent = "";    //when cards are to be displayed, we remove all existing cards and start displaying cards from start of myLibrary array
+        for (let i=0; i < myLibrary.length; i++){
+                
+              let card = document.createElement('div');  // the card containg book info
+              card.setAttribute('class', 'card');
+
+              let bookName = document.createElement('div');
+              bookName.textContent = 'Title:' + ' ' + myLibrary[i].title;
+
+              let bookAuthor = document.createElement('div');
+              bookAuthor.textContent = 'Author:' + ' ' + myLibrary[i].author;
+
+              let bookPages = document.createElement('div');
+              bookPages.textContent = 'Pages:' + ' ' + myLibrary[i].pages;
+              bookPages.setAttribute('class', 'pages')
+
+              let readStatus = document.createElement('button');
+              readStatus.textContent = 'Read Status:' + ' ' + myLibrary[i].read;
+              readStatus.setAttribute('class', 'read');
+
+              let deleteBook = document.createElement('button');
+              deleteBook.textContent = 'Delete';
+              deleteBook.setAttribute('class', 'delete');
+              deleteBook.setAttribute('id', i);
+
+        //       let editBook = document.createElement('button');
+        //       editBook.textContent = 'Edit';
+        //       editBook.setAttribute('class', 'edit');
+        //       editBook.setAttribute('id', i);
+
+              card.appendChild(bookName);    // attach elements to card
+              card.appendChild(bookAuthor);
+              card.appendChild(bookPages);
+              card.appendChild(readStatus);
+              card.appendChild(deleteBook);
+        //       card.appendChild(editBook);  //will add edit when I get the time (wasn't a project requirement btw)
+
+              cardsParent.appendChild(card);  // attach card to HTML document (cardsParent);
+
+              let read = document.querySelectorAll('.read');
+        }
+}
